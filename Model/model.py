@@ -138,7 +138,7 @@ def predict_image(image_path):
     if yhat > 0.5: 
         print(f'Recyclable with {yhat*100}% confidence')
     else:
-        print(f'Trash')
+        print(f'Trash with {(1- yhat) * 100}% confidence')
         
 predict_image('trash.jpg')
 predict_image('recyclable.jpg')
