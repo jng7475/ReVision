@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { setUserPoints } from '../api/setUserPoints';
@@ -43,30 +43,61 @@ const Quiz = ({ answer, navigation }) => {
         navigation.navigate('Store');
     };
     return (
-        <View style={styles.container}>
-            <Text>What do you think this item is?</Text>
-            <TouchableOpacity
+        <View style={[styles.card, styles.shadowProp]}>
+            <Text style={styles.heading}>What do you think this item is?</Text>
+          <View style={{ flexDirection: 'row' }}>
+           <TouchableOpacity
                 onPress={handleRecyclePress}
                 style={styles.recycleButton}
             >
-                <Text>Recycleable</Text>
+            <View style={[styles.card, styles.shadowProp]}>
+                <Text style={{textAlign:"center"}}>Recyclable</Text>
+            </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleTrashPress}>
-                <Text>Trash</Text>
+
+            <TouchableOpacity style={styles.recycleButton} onPress={handleTrashPress}>
+            <View style={[styles.card, styles.shadowProp]} >
+                <Text style={{textAlign:"center"}}>Trash</Text>
+            </View>
             </TouchableOpacity>
+            </View>
         </View>
     );
 };
 export default Quiz;
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#F3F3F3',
-        flex: 1,
+    heading: {
+        fontSize: 18,
+        fontWeight: '600',
+        marginBottom: 13,
+        textAlign: 'center',
+        marginTop:50
+    },
+    card: {
+        backgroundColor: 'white',
+        borderRadius: 8,
+        paddingVertical: 55,
+        paddingHorizontal: 5,
+        textAlign:"center",
+        justifyContent:"center",
+        width: '100%',
+        height: "100%"
+,        marginVertical: 10,
+    },
+    shadowProp: {
+        shadowColor: '#171717',
+        shadowOffset: { width: -2, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
     },
     recycleButton: {
         width: 100,
         height: 150,
         borderColor: 'black',
+        textAlign:"center",
+        justifyContent:"center",
+        width:120,
+        marginLeft: 60
     },
 });

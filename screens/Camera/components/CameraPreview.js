@@ -16,16 +16,15 @@ const CameraPreview = ({
             encoding: FileSystem.EncodingType.Base64,
         }).then(async (res) => {
             // console.log('res', res);
-            // ß
             // console.log(content);
             // console.log({
             //     percentage: content.confidence[0][0],
             //     recyclable: content.recyclable,
             // });
-            // navigation.navigate('Quiz', {
-            //     percentage: content.confidence[0][0],
-            //     recyclable: content.recyclable,
-            // });
+            navigation.navigate('Quiz', {
+                percentage: content.confidence[0][0],
+                recyclable: content.recyclable,
+            });
             setVal(true);
             setConfirmed(true);
             // return res;
@@ -70,6 +69,9 @@ const CameraPreview = ({
                 <Text
                     style={{
                         color: '#000',
+                        justifyContent:"center",
+                        textAlign:"center",
+                        alignContent:"center",    
                     }}
                 >
                     Retake
@@ -91,7 +93,9 @@ const CameraPreview = ({
                 <Text
                     style={{
                         color: '#000',
-                    }}
+                        justifyContent:"center",
+                        textAlign:"center",
+                        alignContent:"center",        }}
                 >
                     Confirm
                 </Text>

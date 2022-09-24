@@ -67,6 +67,7 @@ const AppStack = () => {
                     },
                 }}
             />
+            
         </Tab.Navigator>
     );
 };
