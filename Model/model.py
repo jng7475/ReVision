@@ -72,7 +72,7 @@ model.add(Conv2D(16, (3,3), 1, activation='relu'))
 model.add(MaxPooling2D())
 model.add(Flatten())
 model.add(Dense(256, activation='relu'))
-model.add(Dropout(0.5))
+model.add(Dropout(0.7)) #0.7 working best so far
 model.add(Dense(1, activation='sigmoid'))
 
 model.compile('adam', loss=tf.losses.BinaryCrossentropy(), metrics=['accuracy'])
@@ -81,8 +81,9 @@ model.compile('adam', loss=tf.losses.BinaryCrossentropy(), metrics=['accuracy'])
 # Train the model
 logdir = 'logs'
 tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=logdir)
+early_stop_callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)
 
-initial_learning_rate = 0.01
+initial_learning_rate = 0.1
 decay = initial_learning_rate / 20
 
 def lr_time_based_decay(epoch, lr):
@@ -91,7 +92,7 @@ def lr_time_based_decay(epoch, lr):
 hist = model.fit(train, epochs=20, 
                  validation_data=val, 
                  #callbacks=[tensorboard_callback], 
-                 callbacks=[tensorboard_callback, LearningRateScheduler(lr_time_based_decay, verbose=1)])
+                 callbacks=[tensorboard_callback, LearningRateScheduler(lr_time_based_decay, verbose=1), early_stop_callback])
 
 # plot performance
 fig = plt.figure()
