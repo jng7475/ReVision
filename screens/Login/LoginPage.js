@@ -6,6 +6,7 @@ import {
     TextInput,
     TouchableOpacity,
     View,
+    Image,
 } from 'react-native';
 import { AuthContext } from '../../navigations/AuthProvider';
 import { auth } from '../../firebase';
@@ -49,6 +50,11 @@ const LoginPage = ({ navigation }) => {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             enabled={false}
         >
+            <Image
+                style={styles.icon}
+                resizeMode='contain'
+                source={require('../../assets/appIcon.png')}
+            />
             <View style={styles.inputContainer}>
                 <TextInput
                     placeholder='Email'
@@ -126,5 +132,9 @@ const styles = StyleSheet.create({
         color: '#0782F9',
         fontWeight: '700',
         fontSize: 16,
+    },
+    icon: {
+        width: 200,
+        height: 200,
     },
 });
