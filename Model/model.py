@@ -8,6 +8,7 @@ from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Dropout
 from keras.metrics import Precision, Recall, BinaryAccuracy
 from keras.callbacks import LearningRateScheduler
+from keras.models import load_model
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 
@@ -141,3 +142,6 @@ def predict_image(image_path):
         
 predict_image('trash.jpg')
 predict_image('recyclable.jpg')
+
+# save the model
+model.save(os.path.join('Model','imageclassifier.h5'))
