@@ -7,34 +7,79 @@ import {
     View,
     Image,
     ScrollView,
+    Touchable,
+    TouchableOpacity,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Counter from 'react-native-counters';
+import { getUserPoints } from '../../api/getUserPoints';
+import { auth, db } from '../../firebase';
+import { setUserPoints } from '../../api/setUserPoints';
 
 const Store = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
+    const [points, setPoints] = useState(0);
+    const [item, setItem] = useState([]);
+    useEffect(() => {
+        const setPoints = async () => {
+            await setUserPoints(points);
+        };
+        setPoints();
+    }, [points]);
+    useEffect(() => {
+        const userID = auth.currentUser.uid;
+        console.log('asad', userID);
+        const getUserInfo = async () => {
+            const documentSnapshot = await db
+                .collection('users')
+                .doc(userID)
+                .get();
+            const data = await documentSnapshot.data();
+            console.log('data', data);
+            setPoints(data.points);
+        };
+        getUserInfo();
+    }, []);
+    const handledPress = (item) => {
+        setModalVisible(true);
+        setItem((current) => [...current, item]);
+    };
+    const handleRedeem = () => {
+        setModalVisible(!modalVisible);
+        setPoints((prev) => prev - 1);
+    };
+
     return (
         <View style={styles.giftCard}>
             <Text style={{ marginTop: 50, fontSize: 50 }}>Gift Cards</Text>
+            <Text style={{ marginTop: 50, fontSize: 50 }}>{points} Points</Text>
+            {/* <Text style={{ marginTop: 50, fontSize: 50 }}>One per day</Text> */}
             <ScrollView>
                 <Modal
                     animationType='slide'
                     transparent={true}
                     visible={modalVisible}
                     onRequestClose={() => {
-                        Alert.alert('Modal has been closed.');
+                        Alert.alert('Redeem Failed');
                         setModalVisible(!modalVisible);
+                        setItem([...item.slice(0, item.length)]);
                     }}
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
+                            {/* <TouchableOpacity style={{ flexDirection: 'row' }}>
+                                <Text>-</Text>
+                            </TouchableOpacity> */}
                             <Text style={styles.modalText}>
-                                <Counter start={1} />
+                                You can only redeem this once per day
                             </Text>
+                            {/* <TouchableOpacity style={{ flexDirection: 'row' }}>
+                                <Text>-</Text>
+                            </TouchableOpacity> */}
                             <Pressable
                                 style={[styles.button, styles.buttonClose]}
-                                onPress={() => setModalVisible(!modalVisible)}
+                                onPress={() => handleRedeem()}
                             >
                                 <Text style={styles.textStyle}>Redeem</Text>
                             </Pressable>
@@ -43,12 +88,17 @@ const Store = (props) => {
                 </Modal>
 
                 <View style={{ flexDirection: 'row' }}>
-                    <View style={{ flexDirection: 'col' }}>
+                    <View style={{ flexDirection: 'column' }}>
                         <View style={{ flexDirection: 'row' }}>
                             <View>
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}
-                                    onPress={() => setModalVisible(true)}
+                                    onPress={() => handledPress('Google')}
+                                    disabled={
+                                        item.includes('Google') === true
+                                            ? true
+                                            : false
+                                    }
                                 >
                                     <Image
                                         style={styles.giftCardStyle}
@@ -65,7 +115,12 @@ const Store = (props) => {
                             <View>
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}
-                                    onPress={() => setModalVisible(true)}
+                                    onPress={() => handledPress('Starbucks')}
+                                    disabled={
+                                        item.includes('Starbucks')
+                                            ? true
+                                            : false
+                                    }
                                 >
                                     <Image
                                         style={styles.giftCardStyle}
@@ -83,7 +138,10 @@ const Store = (props) => {
                             <View>
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}
-                                    onPress={() => setModalVisible(true)}
+                                    onPress={() => handledPress('Nike')}
+                                    disabled={
+                                        item.includes('Nike') ? true : false
+                                    }
                                 >
                                     <Image
                                         style={styles.giftCardStyle}
@@ -99,7 +157,10 @@ const Store = (props) => {
                             <View>
                                 <Pressable
                                     style={[styles.button, styles.buttonOpen]}
-                                    onPress={() => setModalVisible(true)}
+                                    onPress={() => handledPress('Apple')}
+                                    disabled={
+                                        item.includes('Apple') ? true : false
+                                    }
                                 >
                                     <Image
                                         style={styles.giftCardStyle}
@@ -154,6 +215,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
+        display: 'flex',
     },
     button: {
         borderRadius: 20,

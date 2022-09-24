@@ -36,6 +36,7 @@ const SignUpPage = ({ navigation }) => {
         const userDetails = {
             email: email,
             name: name,
+            points: 0,
         };
         register(userDetails, password);
     };

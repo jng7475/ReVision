@@ -5368,6 +5368,11 @@
     "jscodeshift" "^0.13.1"
     "nullthrows" "^1.1.1"
 
+"react-native-counter-input@^0.1.9":
+  "integrity" "sha512-TKDveanNLXFXMici/6i7G8fvn0Pw+creXqOvw7JYYO3cyXXgC1ZOK0Gxn6URJuCLcEHQJjQIj5ugDe8jMcO3jg=="
+  "resolved" "https://registry.npmjs.org/react-native-counter-input/-/react-native-counter-input-0.1.9.tgz"
+  "version" "0.1.9"
+
 "react-native-counters@^1.2.0":
   "integrity" "sha512-KFcpyopqFXOb2iw1qbVJRbxmJStK8jcf/zlEJ/PAy6sV4M82xGImRFy+Y1jqdm6Eherg34LR2ay4KYoA3wB/8g=="
   "resolved" "https://registry.npmjs.org/react-native-counters/-/react-native-counters-1.2.0.tgz"
@@ -5413,7 +5418,7 @@
 "react-native-vision-camera@^2.14.1":
   "version" "2.14.1"
 
-"react-native@*", "react-native@>=0.57", "react-native@0.69.5":
+"react-native@*", "react-native@>= 0.55.x", "react-native@>=0.57", "react-native@0.69.5":
   "version" "0.69.5"
   dependencies:
     "@jest/create-cache-key-function" "^27.0.1"
@@ -5459,7 +5464,7 @@
     "object-assign" "^4.1.1"
     "react-is" "^16.12.0 || ^17.0.0 || ^18.0.0"
 
-"react@*", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@>=16", "react@>=17.0.0", "react@18.0.0":
+"react@*", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@>= 16.x.x", "react@>=16", "react@>=17.0.0", "react@18.0.0":
   "version" "18.0.0"
   dependencies:
     "loose-envify" "^1.1.0"

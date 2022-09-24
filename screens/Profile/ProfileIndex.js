@@ -36,7 +36,7 @@ function ProfileCard({ name }) {
                 <Pressable>
                     {({ pressed }) => (
                         <Text style={{ fontSize: 20 }}>
-                            {name ? name : 'User'}
+                            {name !== null ? name.userDetails.name : 'User'}
                         </Text>
                     )}
                 </Pressable>
@@ -47,22 +47,25 @@ function ProfileCard({ name }) {
 
 function ProfileScreen() {
     const { signOut } = useContext(AuthContext);
-    const [userInfo, setUserInfo] = useState({});
+    const [userInfo, setUserInfo] = useState(null);
     useEffect(() => {
-        const user = auth.currentUser;
+        const userID = auth.currentUser.uid;
+        console.log('asad', userID);
         const getUserInfo = async () => {
-            db.collection('users')
-                .doc(user.uid)
-                .get()
-                .then((documentSnapshot) => {
-                    setUserInfo(documentSnapshot.data());
-                });
+            const documentSnapshot = await db
+                .collection('users')
+                .doc(userID)
+                .get();
+            const data = await documentSnapshot.data();
+            console.log('data', data);
+            setUserInfo(data);
         };
         getUserInfo();
     }, []);
+    console.log(userInfo);
     return (
         <ScrollView style={styles.container}>
-            <ProfileCard name={userInfo.userDetails.name} />
+            <ProfileCard name={userInfo} />
             <Text style={{ fontSize: 50, fontWeight: '400' }}>
                 Funds Available
             </Text>

@@ -7,5 +7,6 @@ export const postUserDetails = async (userDetails) => {
         await db.collection('users').doc(currentUserID).set({
             userDetails,
         });
+        await db.collection('points').doc(currentUserID).set({ points: 0 });
     }
 };
