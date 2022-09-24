@@ -30,9 +30,9 @@ def decodeBase64ToImage():
     img_file.close()
 
     if yhatnew > 0.5: 
-        return 'Recyclable'
+        return f'Recyclable {yhatnew*100}% confidence'
     else:
-        return 'Trash'
+        return f'Trash {(1 - yhatnew)*100}% confidence'
 
 if __name__ == "__main__":
     app.run(debug=True)
