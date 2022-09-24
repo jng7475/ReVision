@@ -50,6 +50,10 @@ const CaptureButton = ({ setCapturedImage, setPreviewVisible, camera }) => {
                         bottom: 0,
                         borderRadius: 50,
                         backgroundColor: '#fff',
+                        shadowColor: '#171717',
+                        shadowOffset: {width: -2, height: 2},
+                        shadowOpacity: 0.2,
+                        shadowRadius: 3,
                     }}
                 />
             </View>

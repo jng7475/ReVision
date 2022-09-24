@@ -15,11 +15,13 @@ import {
 import Ionicons from '@expo/vector-icons/Ionicons'; //packages
 import { AuthContext } from '../../navigations/AuthProvider';
 import { auth, db } from '../../firebase';
+import { bundleDirectory } from 'expo-file-system';
+
 
 function ProfileCard({ name }) {
     return (
-        <View style={styles.centeredView}>
-            <View>{/* <Text h4 style={{}}>@InvestorHandle</Text> */}</View>
+        <View style={[styles.card, styles.shadowProp]}>
+        <Text  style={styles.heading}>Profile</Text>
             <View
                 style={{
                     justifyContent: 'center',
@@ -64,12 +66,12 @@ function ProfileScreen() {
     }, []);
     console.log(userInfo);
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView  style={[styles.card, styles.shadowProp]}>
             <ProfileCard name={userInfo} />
-            <Text style={{ fontSize: 50, fontWeight: '400' }}>
+            <Text style={{ fontSize: 30, textAlign: 'center', fontWeight:"bold" }}>
                 Funds Available
             </Text>
-            <Text style={{ fontSize: 30 }}>$10,000</Text>
+            <Text style={{ fontSize: 30, textAlign: 'center' }}>$10,000</Text>
             <View>{/* <Button title='Deposit'/> */}</View>
             <View>
                 {/* <Button title='Withdraw' style={{marginTop:10}}/> */}
@@ -79,7 +81,7 @@ function ProfileScreen() {
             {/* <Image source={require('../assets/pie.png')} resizeMode={'contain'} style={{width:'100%',height:400}}/> */}
 
             <TouchableOpacity onPress={signOut}>
-                <Text style={{ fontSize: 20, textAlign: 'center' }}>
+                <Text style={[styles.card_1, styles.shadowProp_1]}>
                     Sign Out
                 </Text>
             </TouchableOpacity>
@@ -88,12 +90,42 @@ function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: 50,
-        marginHorizontal: 15,
-        textAlign: 'center',
+    heading: {
+      fontSize: 18,
+      fontWeight: '600',
+      marginBottom: 13,
+      textAlign:"center"
     },
-});
+    card: {
+      backgroundColor: 'white',
+      borderRadius: 8,
+      paddingVertical: 55,
+      paddingHorizontal: 25,
+      width: '100%',
+      marginVertical: 10,
+    },
+    card_1: {
+      backgroundColor: 'white',
+      borderRadius: 10,
+      paddingVertical: 15,
+      paddingHorizontal: 15,
+      width: '100%',
+      marginVertical: 10,
+      textAlign:"center",
+      marginTop:120
+    },
+    shadowProp: {
+      shadowColor: '#171717',
+      shadowOffset: {width: -2, height: 2},
+      shadowOpacity: 0.2,
+      shadowRadius: 3,
+    },
+    shadowProp_1: {
+        shadowColor: '#171717',
+        shadowOffset: {width: -2, height: 2},
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+    }
+  });
 
 export default ProfileScreen;

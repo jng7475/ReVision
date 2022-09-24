@@ -52,8 +52,9 @@ const Store = (props) => {
 
     return (
         <View style={styles.giftCard}>
-            <Text style={{ marginTop: 50, fontSize: 50 }}>Gift Cards</Text>
-            <Text style={{ marginTop: 50, fontSize: 50 }}>{points} Points</Text>
+          <View style={[styles.card, styles.shadowProp]}>
+            <Text style={styles.heading}>Gift Cards</Text>
+            <Text style={{ marginTop: 50, fontSize: 50, textAlign:"center" }}>{points} Points</Text>
             {/* <Text style={{ marginTop: 50, fontSize: 50 }}>One per day</Text> */}
             <ScrollView>
                 <Modal
@@ -86,7 +87,9 @@ const Store = (props) => {
                         </View>
                     </View>
                 </Modal>
-
+              </ScrollView>
+              </View>
+              <ScrollView>
                 <View style={{ flexDirection: 'row' }}>
                     <View style={{ flexDirection: 'column' }}>
                         <View style={{ flexDirection: 'row' }}>
@@ -181,6 +184,28 @@ const Store = (props) => {
 };
 
 const styles = StyleSheet.create({
+  heading: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 13,
+    textAlign:"center",
+    marginTop:70
+  },
+  card: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    paddingVertical: 25,
+    paddingHorizontal: 15,
+    margin:20,
+    width: '100%',
+    marginVertical: 10,
+  },
+  shadowProp: {
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 2},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
     centeredView: {
         flex: 1,
         justifyContent: 'center',
@@ -220,14 +245,17 @@ const styles = StyleSheet.create({
     button: {
         borderRadius: 20,
         padding: 10,
-        elevation: 2,
+        borderRadius: 18,
     },
     buttonOpen: {
-        backgroundColor: 'white',
         flex: 1,
         marginTop: 100,
         marginBottom: -50,
         width: '100%',
+        shadowColor: '#171717',
+      shadowOffset: {width: -2, height: 2},
+      shadowOpacity: 0.2,
+      shadowRadius: 3,
     },
     buttonClose: {
         backgroundColor: '#2196F3',
