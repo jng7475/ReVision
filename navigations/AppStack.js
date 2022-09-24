@@ -2,9 +2,9 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CameraPage from '../screens/Camera/CameraPage';
 import News from '../screens/News';
-import Store from '../screens/Store';
+import StoreIndex from '../screens/Store/StoreIndex';
 import Leaderboard from '../screens/Leaderboard';
-import Profile from '../screens/Profile';
+import Profile from '../screens/Profile/ProfileIndex';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,7 +24,7 @@ const AppStack = () => {
             />
             <Tab.Screen
                 name='Store'
-                component={Store}
+                component={StoreIndex}
                 options={{
                     headerShown: false,
                 }}
