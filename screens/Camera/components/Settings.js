@@ -24,6 +24,7 @@ const Settings = ({
             <TouchableOpacity onPress={__handleFlashMode}>
                 <Text
                     style={{
+                        borderRadius:15,
                         fontSize: 25,
                         backgroundColor: flashMode === 'off' ? '#fff' : '#000',
                         opacity: flashMode === 'off' ? 0.5 : 1,
