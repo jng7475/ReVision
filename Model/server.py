@@ -17,9 +17,12 @@ def decodeBase64ToImage():
     decoded_data = base64.b64decode((encoded_data))
 
     #write the decoded data back to original format in  file
-    img_file = open('image.jpeg', 'wb')
+    if os.path.exists('image.jpg'):
+        os.remove('image.jpg')
+        print("The file has been deleted successfully")
+    img_file = open('image.jpg', 'wb')
     img_file.write(decoded_data)
-    img = cv2.imread('image.jpeg')
+    img = cv2.imread('image.jpg')
     resize = tf.image.resize(img, (256,256))
 
     new_model = load_model(os.path.join('Model', 'imageclassifier.h5'))
