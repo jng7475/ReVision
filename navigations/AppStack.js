@@ -1,13 +1,16 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CameraPage from '../screens/Camera/CameraPage';
-import News from '../screens/News';
+import Quiz from '../screens/Quiz';
 import StoreIndex from '../screens/Store/StoreIndex';
 import Leaderboard from '../screens/Leaderboard';
 import Profile from '../screens/Profile/ProfileIndex';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Tab = createBottomTabNavigator();
+
+const Stack = createNativeStackNavigator();
 
 // Screens Tab for App
 const AppStack = () => {

@@ -17,11 +17,10 @@ import { AuthContext } from '../../navigations/AuthProvider';
 import { auth, db } from '../../firebase';
 import { bundleDirectory } from 'expo-file-system';
 
-
 function ProfileCard({ name }) {
     return (
         <View style={[styles.card, styles.shadowProp]}>
-        <Text  style={styles.heading}>Profile</Text>
+            <Text style={styles.heading}>Profile</Text>
             <View
                 style={{
                     justifyContent: 'center',
@@ -50,28 +49,44 @@ function ProfileCard({ name }) {
 function ProfileScreen() {
     const { signOut } = useContext(AuthContext);
     const [userInfo, setUserInfo] = useState(null);
+    const [points, setPoints] = useState(0);
     useEffect(() => {
         const userID = auth.currentUser.uid;
-        console.log('asad', userID);
         const getUserInfo = async () => {
             const documentSnapshot = await db
                 .collection('users')
                 .doc(userID)
                 .get();
             const data = await documentSnapshot.data();
-            console.log('data', data);
+            setPoints(data.points);
+        };
+        getUserInfo();
+    }, []);
+    useEffect(() => {
+        const userID = auth.currentUser.uid;
+        const getUserInfo = async () => {
+            const documentSnapshot = await db
+                .collection('users')
+                .doc(userID)
+                .get();
+            const data = await documentSnapshot.data();
             setUserInfo(data);
         };
         getUserInfo();
     }, []);
-    console.log(userInfo);
     return (
-        <ScrollView  style={[styles.card, styles.shadowProp]}>
+        <ScrollView style={[styles.card, styles.shadowProp]}>
             <ProfileCard name={userInfo} />
-            <Text style={{ fontSize: 30, textAlign: 'center', fontWeight:"bold" }}>
-                Funds Available
+            <Text
+                style={{
+                    fontSize: 30,
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                }}
+            >
+                Credits Available
             </Text>
-            <Text style={{ fontSize: 30, textAlign: 'center' }}>$10,000</Text>
+            <Text style={{ fontSize: 30, textAlign: 'center' }}>{points}</Text>
             <View>{/* <Button title='Deposit'/> */}</View>
             <View>
                 {/* <Button title='Withdraw' style={{marginTop:10}}/> */}
@@ -91,41 +106,41 @@ function ProfileScreen() {
 
 const styles = StyleSheet.create({
     heading: {
-      fontSize: 18,
-      fontWeight: '600',
-      marginBottom: 13,
-      textAlign:"center"
+        fontSize: 18,
+        fontWeight: '600',
+        marginBottom: 13,
+        textAlign: 'center',
     },
     card: {
-      backgroundColor: 'white',
-      borderRadius: 8,
-      paddingVertical: 55,
-      paddingHorizontal: 25,
-      width: '100%',
-      marginVertical: 10,
+        backgroundColor: 'white',
+        borderRadius: 8,
+        paddingVertical: 55,
+        paddingHorizontal: 25,
+        width: '100%',
+        marginVertical: 10,
     },
     card_1: {
-      backgroundColor: 'white',
-      borderRadius: 10,
-      paddingVertical: 15,
-      paddingHorizontal: 15,
-      width: '100%',
-      marginVertical: 10,
-      textAlign:"center",
-      marginTop:120
+        backgroundColor: 'white',
+        borderRadius: 10,
+        paddingVertical: 15,
+        paddingHorizontal: 15,
+        width: '100%',
+        marginVertical: 10,
+        textAlign: 'center',
+        marginTop: 120,
     },
     shadowProp: {
-      shadowColor: '#171717',
-      shadowOffset: {width: -2, height: 2},
-      shadowOpacity: 0.2,
-      shadowRadius: 3,
+        shadowColor: '#171717',
+        shadowOffset: { width: -2, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
     },
     shadowProp_1: {
         shadowColor: '#171717',
-        shadowOffset: {width: -2, height: 2},
+        shadowOffset: { width: -2, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 3,
-    }
-  });
+    },
+});
 
 export default ProfileScreen;

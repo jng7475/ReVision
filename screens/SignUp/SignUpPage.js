@@ -84,14 +84,14 @@ const SignUpPage = ({ navigation }) => {
             </View>
 
             <View style={styles.buttonContainer}>
-                <TouchableOpacity onPress={handleLogin} style={styles.button}>
-                    <Text style={styles.buttonText}>Login</Text>
-                </TouchableOpacity>
                 <TouchableOpacity
                     onPress={handleSignUp}
                     style={[styles.button, styles.buttonOutline]}
                 >
                     <Text style={styles.buttonOutlineText}>Register</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handleLogin} style={styles.button}>
+                    <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>

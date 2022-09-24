@@ -1,26 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, ImageBackground, TouchableOpacity, Text } from 'react-native';
 import * as FileSystem from 'expo-file-system';
+import Quiz from '../../Quiz';
 
-const CameraPreview = ({ photo, setCapturedImage, setPreviewVisible }) => {
+const CameraPreview = ({
+    photo,
+    setCapturedImage,
+    setPreviewVisible,
+    navigation,
+}) => {
+    const [val, setVal] = useState('');
+    const [confirmed, setConfirmed] = useState(false);
     const handleConfirm = async (uri) => {
         var data = await FileSystem.readAsStringAsync(uri, {
             encoding: FileSystem.EncodingType.Base64,
-        }).then((res) => {
+        }).then(async (res) => {
             // console.log('res', res);
-            // fetch(`https://revision-one.herokuapp.com/image/${res}`).then(
-            //     (res) => console.log(res)
-            // );
-            return res
+            // ß
+            // console.log(content);
+            // console.log({
+            //     percentage: content.confidence[0][0],
+            //     recyclable: content.recyclable,
+            // });
+            // navigation.navigate('Quiz', {
+            //     percentage: content.confidence[0][0],
+            //     recyclable: content.recyclable,
+            // });
+            setVal(true);
+            setConfirmed(true);
+            // return res;
         });
-        console.log(data);
+        // console.log(data);
     };
     const handleRetake = () => {
         setCapturedImage(null);
         setPreviewVisible(false);
     };
-
-    return (
+    // console.log(val);
+    return confirmed ? (
+        <Quiz answer={val} navigation={navigation} />
+    ) : (
         <View
             style={{
                 backgroundColor: 'transparent',

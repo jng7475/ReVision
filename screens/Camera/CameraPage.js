@@ -9,7 +9,7 @@ import CaptureButton from './components/CaptureButton';
 import CameraPreview from './components/CameraPreview';
 import Settings from './components/Settings';
 
-export default function CameraPage() {
+export default function CameraPage({ navigation }) {
     const [previewVisible, setPreviewVisible] = useState(false);
     const [capturedImage, setCapturedImage] = useState(null);
     const [camera, setCamera] = useState(null);
@@ -44,6 +44,7 @@ export default function CameraPage() {
                     photo={capturedImage}
                     setPreviewVisible={setPreviewVisible}
                     setCapturedImage={setCapturedImage}
+                    navigation={navigation}
                 />
             ) : (
                 <View style={styles.container}>

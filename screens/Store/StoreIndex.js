@@ -29,14 +29,12 @@ const Store = (props) => {
     }, [points]);
     useEffect(() => {
         const userID = auth.currentUser.uid;
-        console.log('asad', userID);
         const getUserInfo = async () => {
             const documentSnapshot = await db
                 .collection('users')
                 .doc(userID)
                 .get();
             const data = await documentSnapshot.data();
-            console.log('data', data);
             setPoints(data.points);
         };
         getUserInfo();
@@ -52,44 +50,48 @@ const Store = (props) => {
 
     return (
         <View style={styles.giftCard}>
-          <View style={[styles.card, styles.shadowProp]}>
-            <Text style={styles.heading}>Gift Cards</Text>
-            <Text style={{ marginTop: 50, fontSize: 50, textAlign:"center" }}>{points} Points</Text>
-            {/* <Text style={{ marginTop: 50, fontSize: 50 }}>One per day</Text> */}
-            <ScrollView>
-                <Modal
-                    animationType='slide'
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => {
-                        Alert.alert('Redeem Failed');
-                        setModalVisible(!modalVisible);
-                        setItem([...item.slice(0, item.length)]);
-                    }}
+            <View style={[styles.card, styles.shadowProp]}>
+                <Text style={styles.heading}>Gift Cards</Text>
+                <Text
+                    style={{ marginTop: 50, fontSize: 50, textAlign: 'center' }}
                 >
-                    <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            {/* <TouchableOpacity style={{ flexDirection: 'row' }}>
+                    {points} Points
+                </Text>
+                {/* <Text style={{ marginTop: 50, fontSize: 50 }}>One per day</Text> */}
+                <ScrollView>
+                    <Modal
+                        animationType='slide'
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                            Alert.alert('Redeem Failed');
+                            setModalVisible(!modalVisible);
+                            setItem([...item.slice(0, item.length)]);
+                        }}
+                    >
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                                {/* <TouchableOpacity style={{ flexDirection: 'row' }}>
                                 <Text>-</Text>
                             </TouchableOpacity> */}
-                            <Text style={styles.modalText}>
-                                You can only redeem this once per day
-                            </Text>
-                            {/* <TouchableOpacity style={{ flexDirection: 'row' }}>
+                                <Text style={styles.modalText}>
+                                    You can only redeem this once per day
+                                </Text>
+                                {/* <TouchableOpacity style={{ flexDirection: 'row' }}>
                                 <Text>-</Text>
                             </TouchableOpacity> */}
-                            <Pressable
-                                style={[styles.button, styles.buttonClose]}
-                                onPress={() => handleRedeem()}
-                            >
-                                <Text style={styles.textStyle}>Redeem</Text>
-                            </Pressable>
+                                <Pressable
+                                    style={[styles.button, styles.buttonClose]}
+                                    onPress={() => handleRedeem()}
+                                >
+                                    <Text style={styles.textStyle}>Redeem</Text>
+                                </Pressable>
+                            </View>
                         </View>
-                    </View>
-                </Modal>
-              </ScrollView>
-              </View>
-              <ScrollView>
+                    </Modal>
+                </ScrollView>
+            </View>
+            <ScrollView>
                 <View style={{ flexDirection: 'row' }}>
                     <View style={{ flexDirection: 'column' }}>
                         <View style={{ flexDirection: 'row' }}>
@@ -98,7 +100,8 @@ const Store = (props) => {
                                     style={[styles.button, styles.buttonOpen]}
                                     onPress={() => handledPress('Google')}
                                     disabled={
-                                        item.includes('Google') === true
+                                        item.includes('Google') === true ||
+                                        points <= 0
                                             ? true
                                             : false
                                     }
@@ -120,7 +123,8 @@ const Store = (props) => {
                                     style={[styles.button, styles.buttonOpen]}
                                     onPress={() => handledPress('Starbucks')}
                                     disabled={
-                                        item.includes('Starbucks')
+                                        item.includes('Starbucks') ||
+                                        points <= 0
                                             ? true
                                             : false
                                     }
@@ -143,7 +147,9 @@ const Store = (props) => {
                                     style={[styles.button, styles.buttonOpen]}
                                     onPress={() => handledPress('Nike')}
                                     disabled={
-                                        item.includes('Nike') ? true : false
+                                        item.includes('Nike') || points <= 0
+                                            ? true
+                                            : false
                                     }
                                 >
                                     <Image
@@ -162,7 +168,9 @@ const Store = (props) => {
                                     style={[styles.button, styles.buttonOpen]}
                                     onPress={() => handledPress('Apple')}
                                     disabled={
-                                        item.includes('Apple') ? true : false
+                                        item.includes('Apple') || points <= 0
+                                            ? true
+                                            : false
                                     }
                                 >
                                     <Image
@@ -184,28 +192,28 @@ const Store = (props) => {
 };
 
 const styles = StyleSheet.create({
-  heading: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 13,
-    textAlign:"center",
-    marginTop:70
-  },
-  card: {
-    backgroundColor: 'white',
-    borderRadius: 8,
-    paddingVertical: 25,
-    paddingHorizontal: 15,
-    margin:20,
-    width: '100%',
-    marginVertical: 10,
-  },
-  shadowProp: {
-    shadowColor: '#171717',
-    shadowOffset: {width: -2, height: 2},
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-  },
+    heading: {
+        fontSize: 18,
+        fontWeight: '600',
+        marginBottom: 13,
+        textAlign: 'center',
+        marginTop: 70,
+    },
+    card: {
+        backgroundColor: 'white',
+        borderRadius: 8,
+        paddingVertical: 25,
+        paddingHorizontal: 15,
+        margin: 20,
+        width: '100%',
+        marginVertical: 10,
+    },
+    shadowProp: {
+        shadowColor: '#171717',
+        shadowOffset: { width: -2, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+    },
     centeredView: {
         flex: 1,
         justifyContent: 'center',
@@ -253,9 +261,9 @@ const styles = StyleSheet.create({
         marginBottom: -50,
         width: '100%',
         shadowColor: '#171717',
-      shadowOffset: {width: -2, height: 2},
-      shadowOpacity: 0.2,
-      shadowRadius: 3,
+        shadowOffset: { width: -2, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
     },
     buttonClose: {
         backgroundColor: '#2196F3',
