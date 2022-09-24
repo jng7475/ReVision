@@ -72,7 +72,7 @@ model.add(Conv2D(16, (3,3), 1, activation='relu'))
 model.add(MaxPooling2D())
 model.add(Flatten())
 model.add(Dense(256, activation='relu'))
-model.add(Dropout(0.7)) #0.7 working best so far
+model.add(Dropout(0.8)) #0.8 working best so far
 model.add(Dense(1, activation='sigmoid'))
 
 model.compile('adam', loss=tf.losses.BinaryCrossentropy(), metrics=['accuracy'])
@@ -131,7 +131,6 @@ def predict_image(image_path):
 
     resize = tf.image.resize(img, (256,256))
     plt.imshow(resize.numpy().astype(int))
-    plt.show()
 
     yhat = model.predict(np.expand_dims(resize/255, 0))
     print(yhat*100)
