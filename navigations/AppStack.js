@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Camera from '../screens/Camera';
+import CameraPage from '../screens/Camera/CameraPage';
 import News from '../screens/News';
 import Store from '../screens/Store';
 import Leaderboard from '../screens/Leaderboard';
@@ -31,7 +31,7 @@ const AppStack = () => {
             />
             <Tab.Screen
                 name='Camera'
-                component={Camera}
+                component={CameraPage}
                 options={{
                     headerShown: false,
                 }}
