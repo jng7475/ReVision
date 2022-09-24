@@ -7,6 +7,7 @@ import tensorflow as tf
 from flask import Flask
 from flask import request
 from keras.models import load_model
+import json
 
 
 app = Flask(__name__)
@@ -30,9 +31,17 @@ def decodeBase64ToImage():
     img_file.close()
 
     if yhatnew > 0.5: 
-        return f'Recyclable {yhatnew*100}% confidence'
+        output_string = '{"recyclable": "true", "confidence": ' + str(yhatnew*100) + '}'
+        json_object = json.loads(output_string)
+        print(json_object)
+        #return f'Recyclable {yhatnew*100}% confidence'
+        return json_object
     else:
-        return f'Trash {(1 - yhatnew)*100}% confidence'
+        output_string = '{"recyclable": "false", "confidence": ' + str((1 - yhatnew) * 100) + '}'
+        json_object = json.loads(output_string)
+        #return f'Trash {(1 - yhatnew)*100}% confidence'
+        print(json_object)
+        return json_object
 
 if __name__ == "__main__":
     app.run(debug=True)
