@@ -16,7 +16,7 @@ const Settings = ({
                 justifyContent: 'space-between',
                 // borderRadius: '50%',
                 backgroundColor: '#fff',
-                height: 100,
+                height: 35,
                 width: 30,
                 opacity: 0.5,
             }}
@@ -32,7 +32,7 @@ const Settings = ({
                     ⚡️
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 onPress={__switchCamera}
                 style={{
                     fontSize: 25,
@@ -47,7 +47,7 @@ const Settings = ({
                 >
                     {cameraType === 'front' ? '?' : '?'}
                 </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </View>
     );
 };

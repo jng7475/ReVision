@@ -5,6 +5,7 @@ import News from '../screens/News';
 import StoreIndex from '../screens/Store/StoreIndex';
 import Leaderboard from '../screens/Leaderboard';
 import Profile from '../screens/Profile/ProfileIndex';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,17 +17,19 @@ const AppStack = () => {
             screenOptions={{ tabBarHideOnKeyboard: true }}
         >
             <Tab.Screen
-                name='News'
-                component={News}
-                options={{
-                    headerShown: false,
-                }}
-            />
-            <Tab.Screen
                 name='Store'
                 component={StoreIndex}
                 options={{
                     headerShown: false,
+                    tabBarIcon: (tabInfo) => {
+                        return (
+                            <MaterialCommunityIcons
+                                name='storefront-outline'
+                                size={24}
+                                color={tabInfo.focused ? '#006600' : '#8e8e93'}
+                            />
+                        );
+                    },
                 }}
             />
             <Tab.Screen
@@ -34,13 +37,15 @@ const AppStack = () => {
                 component={CameraPage}
                 options={{
                     headerShown: false,
-                }}
-            />
-            <Tab.Screen
-                name='Leaderboard'
-                component={Leaderboard}
-                options={{
-                    headerShown: false,
+                    tabBarIcon: (tabInfo) => {
+                        return (
+                            <MaterialCommunityIcons
+                                name='camera'
+                                size={24}
+                                color={tabInfo.focused ? '#006600' : '#8e8e93'}
+                            />
+                        );
+                    },
                 }}
             />
             <Tab.Screen
@@ -48,6 +53,15 @@ const AppStack = () => {
                 component={Profile}
                 options={{
                     headerShown: false,
+                    tabBarIcon: (tabInfo) => {
+                        return (
+                            <MaterialCommunityIcons
+                                name='face-man-profile'
+                                size={24}
+                                color={tabInfo.focused ? '#006600' : '#8e8e93'}
+                            />
+                        );
+                    },
                 }}
             />
         </Tab.Navigator>

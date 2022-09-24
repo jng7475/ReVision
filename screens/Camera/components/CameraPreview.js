@@ -7,7 +7,11 @@ const CameraPreview = ({ photo, setCapturedImage, setPreviewVisible }) => {
         var data = await FileSystem.readAsStringAsync(uri, {
             encoding: FileSystem.EncodingType.Base64,
         }).then((res) => {
-            return res;
+            // console.log('res', res);
+            // fetch(`https://revision-one.herokuapp.com/image/${res}`).then(
+            //     (res) => console.log(res)
+            // );
+            return res
         });
         console.log(data);
     };
