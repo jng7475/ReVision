@@ -11,7 +11,7 @@ from keras.models import load_model
 
 app = Flask(__name__)
 
-@app.route('/image', methods=['POST'])
+@app.route('/', methods=['POST'])
 def decodeBase64ToImage():
     encoded_data = request.data
     decoded_data = base64.b64decode((encoded_data))
