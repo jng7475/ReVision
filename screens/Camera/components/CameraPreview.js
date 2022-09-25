@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, ImageBackground, TouchableOpacity, Text } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import Quiz from '../../Quiz';
@@ -10,23 +10,34 @@ const CameraPreview = ({
     navigation,
 }) => {
     const [val, setVal] = useState('');
+    useEffect(() => {
+        if (val !== '') {
+            setConfirmed(true);
+        }
+    }, [val]);
     const [confirmed, setConfirmed] = useState(false);
     const handleConfirm = async (uri) => {
         var data = await FileSystem.readAsStringAsync(uri, {
             encoding: FileSystem.EncodingType.Base64,
         }).then(async (res) => {
+            const result = await fetch('https://53dc-38-32-222-98.ngrok.io/', {
+                method: 'POST',
+                body: res,
+            });
+            const content = await result.json();
             // console.log('res', res);
             // console.log(content);
             // console.log({
             //     percentage: content.confidence[0][0],
             //     recyclable: content.recyclable,
             // });
-            navigation.navigate('Quiz', {
-                percentage: content.confidence[0][0],
-                recyclable: content.recyclable,
-            });
-            setVal(true);
-            setConfirmed(true);
+            // navigation.navigate('Quiz', {
+            //     percentage: content.confidence[0][0],
+            //     recyclable: content.recyclable,
+            // });
+            console.log(content);
+            setVal(content.recyclable);
+            // setConfirmed(true);
             // return res;
         });
         // console.log(data);
@@ -35,9 +46,15 @@ const CameraPreview = ({
         setCapturedImage(null);
         setPreviewVisible(false);
     };
-    // console.log(val);
+    // console.log('vvv', val);
     return confirmed ? (
-        <Quiz answer={val} navigation={navigation} />
+        <Quiz
+            answer={val}
+            navigation={navigation}
+            setConfirm={setConfirmed}
+            setPreviewVisible={setPreviewVisible}
+            setCapturedImage={setCapturedImage}
+        />
     ) : (
         <View
             style={{
@@ -69,9 +86,9 @@ const CameraPreview = ({
                 <Text
                     style={{
                         color: '#000',
-                        justifyContent:"center",
-                        textAlign:"center",
-                        alignContent:"center",    
+                        justifyContent: 'center',
+                        textAlign: 'center',
+                        alignContent: 'center',
                     }}
                 >
                     Retake
@@ -93,9 +110,10 @@ const CameraPreview = ({
                 <Text
                     style={{
                         color: '#000',
-                        justifyContent:"center",
-                        textAlign:"center",
-                        alignContent:"center",        }}
+                        justifyContent: 'center',
+                        textAlign: 'center',
+                        alignContent: 'center',
+                    }}
                 >
                     Confirm
                 </Text>

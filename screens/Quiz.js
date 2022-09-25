@@ -4,13 +4,21 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { setUserPoints } from '../api/setUserPoints';
 import { auth, db } from '../firebase';
 
-const Quiz = ({ answer, navigation }) => {
-    const [points, setPoints] = useState(0);
+const Quiz = ({
+    answer,
+    navigation,
+    setConfirm,
+    setPreviewVisible,
+    setCapturedImage,
+}) => {
+    const [points, setPoints] = useState(null);
     useEffect(() => {
-        const setPoints = async () => {
-            await setUserPoints(points);
-        };
-        setPoints();
+        if (points !== null) {
+            const setFirebasePoints = async () => {
+                await setUserPoints(points);
+            };
+            setFirebasePoints();
+        }
     }, [points]);
     useEffect(() => {
         const userID = auth.currentUser.uid;
@@ -20,46 +28,64 @@ const Quiz = ({ answer, navigation }) => {
                 .doc(userID)
                 .get();
             const data = await documentSnapshot.data();
+            // console.log(data);
             setPoints(data.points);
         };
         getUserInfo();
     }, []);
+    console.log('aa', answer);
     const handleRecyclePress = () => {
-        answer === true ? handleResult(true) : handleResult(false);
+        console.log('true chosen');
+        console.log(typeof answer);
+        answer === 'true' ? console.log('llll') : console.log('aaaaaxx');
+        answer === 'true' ? handleResult(true) : handleResult(false);
     };
     const handleTrashPress = () => {
-        answer !== true ? handleResult(true) : handleResult(false);
+        console.log('false chosen');
+
+        answer !== 'true' ? handleResult(true) : handleResult(false);
     };
     const handleResult = (result) => {
+        console.log('rrr', result);
         if (result) {
             alert('You are correct! You received 1 point!');
             setPoints((prev) => prev + 1);
-
+            const test = points + 1;
+            // console.log('ttt', test);
+            const setFirebasePoints = async () => {
+                await setUserPoints(test);
+            };
+            setFirebasePoints();
             // setUserPoints(points);
         } else {
             alert('You are incorrect! Better luck next time!');
-            setPoints((prev) => prev - 1);
         }
         navigation.navigate('Store');
+        setConfirm(false);
+        setPreviewVisible(false);
+        setCapturedImage(null);
     };
     return (
         <View style={[styles.card, styles.shadowProp]}>
             <Text style={styles.heading}>What do you think this item is?</Text>
-          <View style={{ flexDirection: 'row' }}>
-           <TouchableOpacity
-                onPress={handleRecyclePress}
-                style={styles.recycleButton}
-            >
-            <View style={[styles.card, styles.shadowProp]}>
-                <Text style={{textAlign:"center"}}>Recyclable</Text>
-            </View>
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity
+                    onPress={handleRecyclePress}
+                    style={styles.recycleButton}
+                >
+                    <View style={[styles.card, styles.shadowProp]}>
+                        <Text style={{ textAlign: 'center' }}>Recyclable</Text>
+                    </View>
+                </TouchableOpacity>
 
-            <TouchableOpacity style={styles.recycleButton} onPress={handleTrashPress}>
-            <View style={[styles.card, styles.shadowProp]} >
-                <Text style={{textAlign:"center"}}>Trash</Text>
-            </View>
-            </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.recycleButton}
+                    onPress={handleTrashPress}
+                >
+                    <View style={[styles.card, styles.shadowProp]}>
+                        <Text style={{ textAlign: 'center' }}>Trash</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -72,18 +98,18 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         marginBottom: 13,
         textAlign: 'center',
-        marginTop:50
+        marginTop: 50,
     },
     card: {
         backgroundColor: 'white',
         borderRadius: 8,
         paddingVertical: 55,
         paddingHorizontal: 5,
-        textAlign:"center",
-        justifyContent:"center",
+        textAlign: 'center',
+        justifyContent: 'center',
         width: '100%',
-        height: "100%"
-,        marginVertical: 10,
+        height: '100%',
+        marginVertical: 10,
     },
     shadowProp: {
         shadowColor: '#171717',
@@ -95,9 +121,9 @@ const styles = StyleSheet.create({
         width: 100,
         height: 150,
         borderColor: 'black',
-        textAlign:"center",
-        justifyContent:"center",
-        width:120,
-        marginLeft: 60
+        textAlign: 'center',
+        justifyContent: 'center',
+        width: 120,
+        marginLeft: 60,
     },
 });

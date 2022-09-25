@@ -23,6 +23,7 @@ const AppStack = () => {
                 name='Store'
                 component={StoreIndex}
                 options={{
+                    unmountOnBlur: true,
                     headerShown: false,
                     tabBarIcon: (tabInfo) => {
                         return (
@@ -39,6 +40,7 @@ const AppStack = () => {
                 name='Camera'
                 component={CameraPage}
                 options={{
+                    unmountOnBlur: true,
                     headerShown: false,
                     tabBarIcon: (tabInfo) => {
                         return (
@@ -55,6 +57,7 @@ const AppStack = () => {
                 name='Profile'
                 component={Profile}
                 options={{
+                    unmountOnBlur: true,
                     headerShown: false,
                     tabBarIcon: (tabInfo) => {
                         return (
@@ -67,7 +70,6 @@ const AppStack = () => {
                     },
                 }}
             />
-            
         </Tab.Navigator>
     );
 };

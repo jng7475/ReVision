@@ -4,7 +4,7 @@ export const getUserPoints = async () => {
     const currentUserID = auth.currentUser.uid;
     if (currentUserID) {
         const documentSnapshot = await db
-            .collection('points')
+            .collection('users')
             .doc(currentUserID)
             .get();
         const data = await documentSnapshot.data();

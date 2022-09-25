@@ -19,13 +19,15 @@ import { setUserPoints } from '../../api/setUserPoints';
 
 const Store = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
-    const [points, setPoints] = useState(0);
+    const [points, setPoints] = useState(null);
     const [item, setItem] = useState([]);
     useEffect(() => {
-        const setPoints = async () => {
-            await setUserPoints(points);
-        };
-        setPoints();
+        if (points !== null) {
+            const setFirebasePoints = async () => {
+                await setUserPoints(points);
+            };
+            setFirebasePoints();
+        }
     }, [points]);
     useEffect(() => {
         const userID = auth.currentUser.uid;
@@ -35,6 +37,7 @@ const Store = (props) => {
                 .doc(userID)
                 .get();
             const data = await documentSnapshot.data();
+            // console.log(data);
             setPoints(data.points);
         };
         getUserInfo();
@@ -45,7 +48,7 @@ const Store = (props) => {
     };
     const handleRedeem = () => {
         setModalVisible(!modalVisible);
-        setPoints((prev) => prev - 1);
+        setPoints((prev) => (prev - 100 > 0 ? prev - 100 : 0));
     };
 
     return (
@@ -101,7 +104,7 @@ const Store = (props) => {
                                     onPress={() => handledPress('Google')}
                                     disabled={
                                         item.includes('Google') === true ||
-                                        points <= 0
+                                        points < 100
                                             ? true
                                             : false
                                     }
@@ -124,7 +127,7 @@ const Store = (props) => {
                                     onPress={() => handledPress('Starbucks')}
                                     disabled={
                                         item.includes('Starbucks') ||
-                                        points <= 0
+                                        points < 100
                                             ? true
                                             : false
                                     }
@@ -147,7 +150,7 @@ const Store = (props) => {
                                     style={[styles.button, styles.buttonOpen]}
                                     onPress={() => handledPress('Nike')}
                                     disabled={
-                                        item.includes('Nike') || points <= 0
+                                        item.includes('Nike') || points < 100
                                             ? true
                                             : false
                                     }
@@ -168,7 +171,7 @@ const Store = (props) => {
                                     style={[styles.button, styles.buttonOpen]}
                                     onPress={() => handledPress('Apple')}
                                     disabled={
-                                        item.includes('Apple') || points <= 0
+                                        item.includes('Apple') || points < 100
                                             ? true
                                             : false
                                     }

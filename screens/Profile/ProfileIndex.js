@@ -15,7 +15,6 @@ import {
 import Ionicons from '@expo/vector-icons/Ionicons'; //packages
 import { AuthContext } from '../../navigations/AuthProvider';
 import { auth, db } from '../../firebase';
-import { bundleDirectory } from 'expo-file-system';
 
 function ProfileCard({ name }) {
     return (
@@ -58,19 +57,8 @@ function ProfileScreen() {
                 .doc(userID)
                 .get();
             const data = await documentSnapshot.data();
+            console.log(data);
             setPoints(data.points);
-        };
-        getUserInfo();
-    }, []);
-    useEffect(() => {
-        const userID = auth.currentUser.uid;
-        const getUserInfo = async () => {
-            const documentSnapshot = await db
-                .collection('users')
-                .doc(userID)
-                .get();
-            const data = await documentSnapshot.data();
-            setUserInfo(data);
         };
         getUserInfo();
     }, []);
