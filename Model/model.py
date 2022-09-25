@@ -72,7 +72,7 @@ model.add(Conv2D(16, (3,3), 1, activation='relu'))
 model.add(MaxPooling2D())
 model.add(Flatten())
 model.add(Dense(256, activation='relu'))
-model.add(Dropout(0.8)) #0.8 working best so far
+model.add(Dropout(0.9)) #0.8 working best so far
 model.add(Dense(1, activation='sigmoid'))
 
 model.compile('adam', loss=tf.losses.BinaryCrossentropy(), metrics=['accuracy'])
@@ -90,8 +90,7 @@ def lr_time_based_decay(epoch, lr):
     return lr * 1 / (1 + decay * epoch)
 
 hist = model.fit(train, epochs=20, 
-                 validation_data=val, 
-                 #callbacks=[tensorboard_callback], 
+                 validation_data=val,
                  callbacks=[tensorboard_callback, LearningRateScheduler(lr_time_based_decay, verbose=1), early_stop_callback])
 
 # plot performance
@@ -100,14 +99,14 @@ plt.plot(hist.history['loss'], color='teal', label='loss')
 plt.plot(hist.history['val_loss'], color='orange', label='val_loss')
 fig.suptitle('Loss', fontsize=20)
 plt.legend(loc="upper left")
-plt.show()
+plt.savefig('loss.png')
 
 fig = plt.figure()
 plt.plot(hist.history['accuracy'], color='teal', label='accuracy')
 plt.plot(hist.history['val_accuracy'], color='orange', label='val_accuracy')
 fig.suptitle('Accuracy', fontsize=20)
 plt.legend(loc="upper left")
-plt.show()
+plt.savefig('accuracy.png')
 
 # Evaluate the model
 precision = Precision()
@@ -122,6 +121,8 @@ for batch in test.as_numpy_iterator():
     accuracy.update_state(y, yhat)
     
 print(precision.result(), recall.result(), accuracy.result())
+with open('test_evaluation.txt', 'w') as f:
+    f.write(f'Precision: {precision.result().numpy()} Recall: {recall.result().numpy()} Accuracy: {accuracy.result().numpy()}')
 
 # Test the model
 def predict_image(image_path):
